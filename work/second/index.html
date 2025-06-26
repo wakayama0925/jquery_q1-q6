@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>jQuery</title>
+    <link rel="stylesheet" href="../../common/css/reset.css">
+    <link rel="stylesheet" href="../../common/css/base.css">
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <p class="modal-show">Click</p>
+      <div class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-text">MODAL WINDOW</div>
+          <button type="button" class="modal-close">x</button>
+        </div>
+      </div>
+    </div>
+    <script src="../../common/js/jquery.js"></script>
+    <script>
+      $(function(){
+          var open = $('.modal-show'),
+              close = $('.modal-close'),
+              container = $('.modal');
+
+          open.on('click',function(){	
+            container.fadeIn(),
+            container.addClass('active');           
+            return false;
+          });
+
+          close.on('click',function(){	
+            container.fadeOut(),
+            container.removeClass('active');
+          });
+
+          $(document).on('click',function(e) {
+            if(!$(e.target).closest('.modal-content').length) {
+              container.removeClass('active');
+            }
+          });
+        });
+    </script>
+  </body>
+</html>

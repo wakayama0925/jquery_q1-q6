@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,16 +10,16 @@
   <link rel="stylesheet" href="./css/style.css">
   <title>Document</title>
 </head>
+
 <body>
   <div class="wrapper" id="wrapper">
     <button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>
   </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    // 回答はここに書いてね
-    $(function(){
+    $(function () {
       let encountHtml =
-            `
+        `
               <p class="name"></p>
               <div>
                 <img class="img" src='' alt="ポケモンの画像">
@@ -37,74 +38,73 @@
           <button class="btn" data-js="reset">戻る</button>
         `
       let failHtml =
-                `
+        `
                   <p class="text">逃げられてしまった...</p>
                   <button class="btn mt" data-js="reset">戻る</button>
                 `
-       let backHTML =
-                '<button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>'
-      $('#pokemon_search').on('click',function(){
+      let backHTML =
+        '<button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>'
+
+      $('#pokemon_search').on('click', function () {
         const pokemonId = Math.floor(Math.random() * 150) + 1;
-      return  $.ajax({
+        $.ajax({
           url: `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`,
           dataType: 'json',
-          
+
         })
+          .done(function (res) {
 
-        .done(function(res){
-
-            
             $("div").html(encountHtml);
             console.log(res.species.url);
             console.log(res.sprites.front_default);
             $('.img').attr('src', res.sprites.front_default);
-            $(".btn").on('click',function(){
-            var dates =  $(this).data('js');
-              if (dates == "reset"){
+            $(".btn").on('click', function () {
+              var dates = $(this).data('js');
+              if (dates == "reset") {
                 $("div").html(backHTML);
-             
-            }
-        
-      });
-         $('#catch').on('click',function(){
-          var randomNumber = Math.round( Math.random()*1 );
-          $.ajax({ 
-              url: 'https://pokeapi.co/api/v2/item/4',
-              method: 'GET',
-              dataType: 'json'
-            }).done(function(res) { 
-              if (randomNumber == 1) {
-            
-              $("div").html(doneHtml);
-              $('.img').attr('src', res.sprites.default);
-              $(".btn").on('click',function(){
-                var dates =  $(this).data('js');
-                console.log(dates);
-                if (dates == "reset"){
-                  $("div").html(backHTML);
-                }
-              })              
-              }else{
+              }
+            });
+            $('#catch').on('click', function () {
+              var randomNumber = Math.round(Math.random() * 1);
+              $.ajax({
+                url: 'https://pokeapi.co/api/v2/item/4',
+                method: 'GET',
+                dataType: 'json'
+              }).done(function (res) {
+                if (randomNumber == 1) {
+
+                  $("div").html(doneHtml);
+                  $('.img').attr('src', res.sprites.default);
+                  $(".btn").on('click', function () {
+                    var dates = $(this).data('js');
+                    console.log(dates);
+                    if (dates == "reset") {
+                      $("div").html(backHTML);
+                    }
+                  })
+                } else {
 
                   $("div").html(failHtml);
-                  $(".btn").on('click',function(){
-                    var dates =  $(this).data('js');
+                  $(".btn").on('click', function () {
+                    var dates = $(this).data('js');
                     console.log(dates);
-                    if (dates == "reset"){
+                    if (dates == "reset") {
                       $("div").html(backHTML);
-                      }
-                    })                                    
-                  } 
-              }).fail(function(err) { 
+                      
+                    }
+                  })
+                }
+              }).fail(function (err) {
                 console.error('エラーが発生しました');
+              });
             });
-          });
-        }).fail(function(err) { 
-          console.error('エラーが発生しました');
-        })
+          }).fail(function (err) {
+            console.error('エラーが発生しました');
+          })
       });
     });
-    
+
   </script>
 </body>
+
 </html>
